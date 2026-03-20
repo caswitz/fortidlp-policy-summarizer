@@ -1,0 +1,7 @@
+*.json
+*.pyc
+report.html
+.DS_Store
+__pycache__/
+*.egg-info/
+docs/

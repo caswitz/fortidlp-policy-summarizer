@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+        color: #1a1a1a;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+    h1 {
+        color: #1d3557;
+        border-bottom: 3px solid #457b9d;
+        padding-bottom: 12px;
+        font-size: 28px;
+    }
+    h2 {
+        color: #1d3557;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        margin-top: 40px;
+        font-size: 22px;
+    }
+    h3 {
+        color: #1d3557;
+        margin-top: 32px;
+        padding-top: 16px;
+        border-top: 1px solid #eee;
+        font-size: 18px;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 16px 0;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #1d3557;
+        color: white;
+        font-weight: 600;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    blockquote {
+        border-left: 4px solid #457b9d;
+        margin: 16px 0;
+        padding: 8px 16px;
+        background-color: #f1faee;
+        color: #1d3557;
+    }
+    code {
+        background-color: #f0f0f0;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 13px;
+    }
+    strong {
+        color: #1d3557;
+    }
+    hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 32px 0;
+    }
+    ul {
+        padding-left: 24px;
+    }
+    li {
+        margin-bottom: 4px;
+    }
+    small {
+        display: block;
+        font-size: 13px;
+        color: #555;
+        margin-top: 2px;
+    }
+    small ul {
+        margin: 2px 0 0 0;
+        padding-left: 24px;
+    }
+    small li {
+        margin-bottom: 1px;
+    }
+    .toc-actions {
+        margin: 0 0 8px 0;
+        font-size: 12px;
+        color: #888;
+    }
+    .toc-groups {
+        margin: 0;
+        padding-left: 28px;
+    }
+    .toc-groups > li {
+        margin: 3px 0;
+        line-height: 1.4;
+    }
+    .toc-groups > li > a {
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .toc-count {
+        color: #888;
+        font-size: 13px;
+        margin-left: 6px;
+    }
+    .toc-badge {
+        background: #e8eef4;
+        color: #457b9d;
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-size: 11px;
+        margin-left: 6px;
+        vertical-align: middle;
+    }
+    .toc-toggle {
+        font-size: 12px;
+        color: #457b9d;
+        cursor: pointer;
+        margin-left: 8px;
+        padding: 1px 8px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: #f8f9fa;
+    }
+    .toc-toggle:hover {
+        background: #e8eef4;
+        border-color: #457b9d;
+    }
+    .toc-policies {
+        display: none;
+        margin: 4px 0 4px 8px;
+        padding-left: 16px;
+    }
+    .toc-policies li {
+        font-size: 13px;
+        margin: 2px 0;
+    }
+    details {
+        margin-bottom: 8px;
+    }
+    summary {
+        cursor: pointer;
+        list-style: revert;
+    }
+    summary h2 {
+        display: inline;
+        margin: 0;
+        border-bottom: none;
+    }
+    details {
+        margin: 8px 0;
+        padding: 8px;
+        background: #f8f9fa;
+        border-radius: 4px;
+    }
+    details.group-section {
+        background: none;
+        padding: 0;
+    }
+    summary {
+        cursor: pointer;
+    }
+    .severity-badge {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 10px;
+        border-radius: 12px;
+        color: white;
+        vertical-align: middle;
+    }
+    .risk-critical { background: #e63946; }
+    .risk-high { background: #f4a261; }
+    .risk-medium { background: #e9c46a; }
+    .risk-low { background: #457b9d; }
+    .risk-info { background: #adb5bd; }
+    .sample-card {
+        margin: 12px 24px;
+        padding: 12px 16px;
+        border-left: 3px solid #457b9d;
+        background: #fafbfc;
+        border-radius: 0 4px 4px 0;
+        font-size: 13px;
+    }
+    .sample-card h3 {
+        margin-top: 0;
+        border-top: none;
+        padding-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .sample-card p {
+        margin: 4px 0;
+    }
+    .policy-card {
+        margin: 16px 0 16px 24px;
+        padding: 12px 16px;
+        border-left: 3px solid #457b9d;
+        background: #fafbfc;
+        border-radius: 0 4px 4px 0;
+        font-size: 13px;
+        border-bottom: 1px solid #eee;
+    }
+    .policy-card h3 {
+        margin-top: 0;
+        border-top: none;
+        padding-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .policy-card p {
+        margin: 4px 0;
+    }
+    .policy-card ul {
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    @media print {
+        body { margin: 20px; }
+        h2 { page-break-before: auto; }
+        h3 { page-break-after: avoid; }
+        table { page-break-inside: avoid; }
+    }
+</style>
+</head>
+<body>
+<h1>FortiDLP Policy Summary Report</h1>
+<p><strong>Generated:</strong> March 22, 2026 at 05:03 PM</p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<div class="toc">
+<p class="toc-actions"><a href="#" onclick="document.querySelectorAll('.toc-policies').forEach(u=>u.style.display='block');document.querySelectorAll('.toc-toggle').forEach(t=>t.textContent='hide');return false">Expand all</a> | <a href="#" onclick="document.querySelectorAll('.toc-policies').forEach(u=>u.style.display='none');document.querySelectorAll('.toc-toggle').forEach(t=>t.textContent='show');return false">Collapse all</a></p>
+<ol class="toc-groups">
+<li><a href="#how-to-read-this-report">How to Read This Report</a></li>
+<li><a href="#example---cloud-storage-dlp">Example - Cloud Storage DLP</a> <span class="toc-badge">All systems</span> <span class="toc-count">2 policies</span> <span class="toc-toggle" onclick="var ul=this.nextElementSibling;if(ul.style.display==='block'){ul.style.display='none';this.textContent='show';}else{ul.style.display='block';this.textContent='hide';}">show</span><ul class="toc-policies"><li><a href="#box-drive---sensitive-file-copied-or-moved-out-of-box">Box Drive - Sensitive file copied or moved out of Box</a></li><li><a href="#box-drive---sensitive-file-renamed">Box Drive - Sensitive file renamed</a></li></ul></li>
+<li><a href="#example---data-loss-prevention">Example - Data Loss Prevention</a> <span class="toc-badge">All systems</span> <span class="toc-count">2 policies</span> <span class="toc-toggle" onclick="var ul=this.nextElementSibling;if(ul.style.display==='block'){ul.style.display='none';this.textContent='show';}else{ul.style.display='block';this.textContent='hide';}">show</span><ul class="toc-policies"><li><a href="#bulk-file-transfer-to-usb-storage-device-exceeded">Bulk file transfer to USB storage device exceeded</a></li><li><a href="#sensitive-file-transferred-via-video-conferencing-application">Sensitive file transferred via video conferencing application</a></li></ul></li>
+<li><a href="#example---insider-risk">Example - Insider Risk</a> <span class="toc-badge">All systems</span> <span class="toc-count">2 policies</span> <span class="toc-toggle" onclick="var ul=this.nextElementSibling;if(ul.style.display==='block'){ul.style.display='none';this.textContent='show';}else{ul.style.display='block';this.textContent='hide';}">show</span><ul class="toc-policies"><li><a href="#unusual-usb-bulk-file-transfer-activity">Unusual USB bulk file transfer activity</a></li><li><a href="#executable-or-script-downloaded">Executable or script downloaded</a></li></ul></li>
+</ol>
+</div>
+<hr>
+<details id="how-to-read-this-report" class="group-section">
+<summary><h2>How to Read This Report</h2></summary>
+<h3 id="how-fortidlp-policies-work">How FortiDLP Policies Work</h3>
+<p>FortiDLP policies monitor endpoint and user activity for security-relevant events. Each policy defines:</p>
+<ul>
+<li><strong>What to detect</strong> — conditions that identify risky or policy-violating activity</li>
+<li><strong>How severe it is</strong> — risk score and MITRE ATT&CK mapping for triage priority</li>
+<li><strong>How to respond</strong> — automated actions: block, notify, screenshot, or log only</li>
+</ul>
+<h4>Detection Flow</h4>
+<svg class="flowchart" viewBox="-10 0 700 600" style="display:block;max-width:700px;margin:16px auto;" xmlns="http://www.w3.org/2000/svg">
+<title>Detection Flow</title>
+<defs>
+<marker id="ah" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+<path d="M0,0 L8,3 L0,6 Z" fill="#555"/>
+</marker>
+<marker id="ah-no" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+<path d="M0,0 L8,3 L0,6 Z" fill="#d9534f"/>
+</marker>
+<marker id="ah-log" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+<path d="M0,0 L8,3 L0,6 Z" fill="#28a745"/>
+</marker>
+<marker id="ah-inc" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+<path d="M0,0 L8,3 L0,6 Z" fill="#999"/>
+</marker>
+</defs>
+<rect x="170" y="10" width="340" height="68" rx="6" fill="#fafafa" stroke="#aaa"/>
+<text x="340" y="38" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">Activity on endpoint</text>
+<text x="340" y="54" text-anchor="middle" font-size="12" font-family="system-ui,sans-serif" fill="#555">file copy, upload, USB, etc.</text>
+<line x1="340" y1="80" x2="340" y2="104" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+<line x1="340" y1="92" x2="138" y2="92" stroke="#28a745" stroke-width="1.5"/>
+<polygon points="130,92 138,88 138,96" fill="#28a745"/>
+<rect x="0" y="64" width="130" height="56" rx="6" fill="#d4edda" stroke="#28a745"/>
+<text x="65" y="86" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">Logged to Investigate</text>
+<text x="65" y="102" text-anchor="middle" font-size="12" font-family="system-ui,sans-serif" fill="#555">Activity Feed</text>
+<rect x="170" y="106" width="340" height="68" rx="6" fill="#fafafa" stroke="#aaa"/>
+<text x="340" y="134" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">Policy conditions evaluated by Agent</text>
+<text x="340" y="150" text-anchor="middle" font-size="12" font-family="system-ui,sans-serif" fill="#555">All configured conditions must be met for a detection</text>
+<line x1="340" y1="176" x2="340" y2="200" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="240" y="202" width="200" height="48" rx="6" fill="#fff3cd" stroke="#e9c46a"/>
+<text x="340" y="231" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">All match?</text>
+<line x1="340" y1="252" x2="340" y2="276" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+<text x="350" y="268" font-size="12" font-family="system-ui,sans-serif" fill="#555">Yes</text>
+<line x1="442" y1="226" x2="500" y2="226" stroke="#d9534f" stroke-width="1.5" marker-end="url(#ah-no)"/>
+<text x="471" y="220" text-anchor="middle" font-size="12" font-family="system-ui,sans-serif" fill="#d9534f">No</text>
+<rect x="510" y="203" width="160" height="46" rx="6" fill="#f8d7da" stroke="#d9534f"/>
+<text x="590" y="231" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">No detection created</text>
+<rect x="170" y="278" width="340" height="56" rx="6" fill="#e8f4f8" stroke="#2980b9"/>
+<text x="340" y="311" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">Detection created with risk score and MITRE mapping</text>
+<line x1="340" y1="336" x2="340" y2="360" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="170" y="362" width="340" height="56" rx="6" fill="#fafafa" stroke="#aaa"/>
+<text x="340" y="395" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">Actions fire (block, screenshot, notify)</text>
+<line x1="340" y1="420" x2="340" y2="444" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="240" y="446" width="200" height="48" rx="6" fill="#fff3cd" stroke="#e9c46a"/>
+<text x="340" y="475" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">Raise incident enabled?</text>
+<line x1="340" y1="496" x2="340" y2="520" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+<text x="350" y="512" font-size="12" font-family="system-ui,sans-serif" fill="#555">Yes</text>
+<line x1="442" y1="470" x2="498" y2="470" stroke="#999" stroke-width="1.5"/>
+<text x="472" y="464" text-anchor="middle" font-size="12" font-family="system-ui,sans-serif" fill="#999">No</text>
+<circle cx="502" cy="470" r="4" fill="#999"/>
+<rect x="170" y="522" width="340" height="68" rx="6" fill="#f5f5f5" stroke="#999" stroke-dasharray="6,3"/>
+<text x="340" y="550" text-anchor="middle" font-size="13" font-family="system-ui,sans-serif" fill="#1d3557">Incident created</text>
+<text x="340" y="566" text-anchor="middle" font-size="12" font-family="system-ui,sans-serif" fill="#555">standalone or clustered by rule</text>
+<text x="560" y="12" font-size="11" font-family="system-ui,sans-serif" font-weight="bold" fill="#555">Legend</text>
+<rect x="560" y="20" width="10" height="10" rx="2" fill="#d4edda" stroke="#28a745"/>
+<text x="576" y="29" font-size="10" font-family="system-ui,sans-serif" fill="#555">Always logged</text>
+<rect x="560" y="38" width="10" height="10" rx="2" fill="#e8f4f8" stroke="#2980b9"/>
+<text x="576" y="47" font-size="10" font-family="system-ui,sans-serif" fill="#555">Key outcome</text>
+<rect x="560" y="56" width="10" height="10" rx="2" fill="#fff3cd" stroke="#e9c46a"/>
+<text x="576" y="65" font-size="10" font-family="system-ui,sans-serif" fill="#555">Decision point</text>
+<rect x="560" y="74" width="10" height="10" rx="2" fill="#f5f5f5" stroke="#999" stroke-dasharray="4,2"/>
+<text x="576" y="83" font-size="10" font-family="system-ui,sans-serif" fill="#555">Config-dependent</text>
+<rect x="560" y="92" width="10" height="10" rx="2" fill="#f8d7da" stroke="#d9534f"/>
+<text x="576" y="101" font-size="10" font-family="system-ui,sans-serif" fill="#555">No match</text>
+</svg>
+<h4>Policy Groups and Targeting</h4>
+<p>Policies are organized into <strong>groups</strong> scoped by <strong>labels</strong> — e.g., a group labeled "Windows" applies only to matching endpoints. Groups labeled "All systems" have no targeting restriction.</p>
+<h4>How Policies Are Presented in This Report</h4>
+<p>Each policy in this report includes:</p>
+<div style="margin-left: 24px; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 20px;">
+<h2 style="display:inline;margin:0;border-bottom:none;padding-bottom:0;">Example Group Name <span class="toc-badge">Label</span></h2>
+<p><strong>Policies in group:</strong> <em>&lt;# policies in group&gt;</em></p>
+<blockquote>Group-level description text — explains the purpose or scope of this policy group</blockquote>
+<div class="policy-card">
+<h3>Example Policy Name <span class="severity-badge risk-high">&nbsp;Risk Score&nbsp;</span></h3>
+<p><strong>Description:</strong> What the policy detects</p>
+<p><strong>Requirements:</strong> OS and minimum Agent version needed (if applicable)</p>
+<p><strong>Tags:</strong> Labels assigned to policies for filtering and cross-referencing in the FortiDLP console (e.g., <code>datatracking</code>, <code>removablemedia</code>, <code>Windows</code>)</p>
+<p><strong>Triggers:</strong> Conditions that cause a detection (what the policy watches for)</p>
+<p><strong>Content inspection:</strong> File content patterns or keywords that must match</p>
+<p><strong>Exceptions:</strong> Conditions that suppress detection (whitelisted items)</p>
+<p><strong>Settings:</strong> Additional configuration options for this policy</p>
+<p><strong>Customizable:</strong> Parameters you can configure to tailor detection (e.g., add IP addresses, domains, or usernames to monitor or exempt)</p>
+<p><strong>Detection:</strong> Indicates a policy with fixed detection logic defined in the agent (e.g., registry changes, attack signatures)</p>
+<p><strong>Response:</strong> Actions taken when the policy triggers (block, screenshot, message, etc.)</p>
+</div>
+</div>
+<h4>Tags</h4>
+<p>Metadata categorizing what each policy monitors (e.g., <code>datatracking</code>, <code>filecopy</code>, <code>removablemedia</code>). Tags prefixed with <code>mitre:</code> map to MITRE ATT&amp;CK techniques. Tags are informational — they do not affect detection behavior, but are useful for filtering, searching, and understanding coverage across policy groups.</p>
+<h4>Risk Score Scale</h4>
+<p>Each policy has a risk score (0–100) set by the policy template, determining detection priority in the FortiDLP console. Higher-scored detections surface first for analyst review and are typically paired with stronger response actions (blocking, screenshots, notifications).</p>
+<div style="margin: 0 24px;">
+<table>
+<tr><th>Score</th><th>Severity</th><th>Color</th></tr>
+<tr><td>90–100</td><td>Critical</td><td><span class="severity-badge risk-critical"> </span></td></tr>
+<tr><td>70–89</td><td>High</td><td><span class="severity-badge risk-high"> </span></td></tr>
+<tr><td>40–69</td><td>Medium</td><td><span class="severity-badge risk-medium"> </span></td></tr>
+<tr><td>1–39</td><td>Low</td><td><span class="severity-badge risk-low"> </span></td></tr>
+<tr><td>0</td><td>Informational</td><td><span class="severity-badge risk-info"> </span></td></tr>
+</table>
+</div>
+</details>
+<hr>
+<p><a href="#" onclick="document.querySelectorAll('details.group-section').forEach(d=>d.open=true);return false">Expand all</a> | <a href="#" onclick="document.querySelectorAll('details.group-section').forEach(d=>d.open=false);return false">Collapse all</a></p>
+<details open class="group-section">
+<summary><h2 id="example---cloud-storage-dlp">Example - Cloud Storage DLP <span class="toc-badge">All systems</span></h2></summary>
+<blockquote>Example policies demonstrating cloud storage monitoring and data loss prevention for Box Drive.</blockquote>
+<p><strong>Policies in group:</strong> 2</p>
+<div class="policy-card">
+<h3 id="box-drive---sensitive-file-copied-or-moved-out-of-box">Box Drive - Sensitive file copied or moved out of Box<span class="severity-badge risk-critical">90 Critical</span></h3>
+<p>Detects when a user copies or moves a sensitive file from Box Drive to an unauthorized location.</p>
+<p><strong>Requirements:</strong> Windows, Agent 8.4.0+</p>
+<p><strong>Tags:</strong> <code>apps</code> <code>datatracking</code> <code>filecopy</code> <code>mitre:ta0003/t1098</code></p>
+<p><strong>Triggers:</strong> Monitors files copied/moved from these locations: <code>Corporate Drive\**</code></p>
+<p><strong>Content inspection:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Content patterns: 4 predefined asset(s) referenced</li>
+<li>Match requirement: <strong>Match any</strong></li>
+<li>Each pattern/keyword must appear at least <strong>3</strong> times to trigger</li>
+</ul>
+<p><strong>Exceptions:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Exempt applications (will not trigger): <code>SearchProtocolHost.exe</code>, <code>MsMpEng.exe</code>, <code>smartscreen.exe</code>, <code>QuickLookSatellite</code>, <code>mds</code>, <code>mds_stores</code>, <code>mdwrite</code>, <code>mdworker_shared</code>, <code>SYSTEM</code></li>
+</ul>
+<p><strong>Settings:</strong> Monitors file copies</p>
+<p><strong>Customizable:</strong> Destination file paths (deny list), File types (allow list), File extensions (allow list), Called paths (allow list)</p>
+<p><strong>Response:</strong> Message "Corporate Box Drive Policy" (requires acknowledgement, justification); Screenshot</p>
+</div>
+<div class="policy-card">
+<h3 id="box-drive---sensitive-file-renamed">Box Drive - Sensitive file renamed<span class="severity-badge risk-critical">90 Critical</span></h3>
+<p>Detects when a user copies or moves a sensitive file within Box Drive.</p>
+<p><strong>Requirements:</strong> Windows, Agent 8.4.0+</p>
+<p><strong>Tags:</strong> <code>apps</code> <code>datatracking</code> <code>filecopy</code> <code>mitre:ta0010/t1052.001</code></p>
+<p><strong>Triggers:</strong> Monitors files copied/moved from these locations: <code>Corporate Drive\**</code></p>
+<p><strong>Content inspection:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Content keywords: <code>test</code></li>
+<li>Match requirement: <strong>Match any</strong></li>
+</ul>
+<p><strong>Exceptions:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Exempt applications (will not trigger): <code>SearchProtocolHost.exe</code>, <code>MsMpEng.exe</code>, <code>smartscreen.exe</code>, <code>QuickLookSatellite</code>, <code>mds</code>, <code>mds_stores</code>, <code>mdwrite</code>, <code>mdworker_shared</code>, <code>SYSTEM</code></li>
+</ul>
+<p><strong>Settings:</strong> Monitors file renames</p>
+<p><strong>Customizable:</strong> Destination file paths (within Box Drive) (deny list), File types (allow list), File extensions (allow list), Called paths (allow list)</p>
+<p><strong>Response:</strong> Message "Corporate Box Drive Policy" (requires acknowledgement, justification); Screenshot</p>
+</div>
+</details>
+<hr>
+<details open class="group-section">
+<summary><h2 id="example---data-loss-prevention">Example - Data Loss Prevention <span class="toc-badge">All systems</span></h2></summary>
+<blockquote>Example policies demonstrating data loss prevention controls for Linux endpoints.</blockquote>
+<p><strong>Policies in group:</strong> 2</p>
+<div class="policy-card">
+<h3 id="bulk-file-transfer-to-usb-storage-device-exceeded">Bulk file transfer to USB storage device exceeded<span class="severity-badge risk-critical">90 Critical</span></h3>
+<p>Detects when a user writes an excessive number of files or volume of data to a USB storage device without a significant pause between consecutive file transfers.</p>
+<small>Note: Requires Agent 11.2.3+ on Linux.</small>
+<p><strong>Requirements:</strong> Agent 9.1.0+</p>
+<p><strong>Tags:</strong> <code>apps</code> <code>datatracking</code> <code>filecopy</code> <code>dlp</code></p>
+<p><strong>Triggers:</strong> Detection timing: At end of bulk transfer</p>
+<p><strong>Content inspection:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Content patterns: matches <strong>all content</strong> (wildcard <code>.*</code>)</li>
+<li>Match requirement: <strong>Match any</strong></li>
+</ul>
+<p><strong>Exceptions:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Exempt applications (will not trigger): <code>SYSTEM</code></li>
+</ul>
+<p><strong>Settings:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Maximum permitted number of files: 50</li>
+<li>Wait period (seconds): 60</li>
+</ul>
+<p><strong>Customizable:</strong> File extensions (allow list), File path keywords (deny list), File types (allow list)</p>
+<p><strong>Response:</strong> Monitor only</p>
+</div>
+<div class="policy-card">
+<h3 id="sensitive-file-transferred-via-video-conferencing-application">Sensitive file transferred via video conferencing application<span class="severity-badge risk-critical">90 Critical</span></h3>
+<p>Detects when a user opens a file containing specified content which was transferred using a video conferencing application, such as WebEx, Skype, or Slack.</p>
+<small>Notes:<ul><li>Two sets of parameters must be configured to trigger a detection: (1) at least one sensitivity parameter that specifies either a data identifier (content inspection pattern, keyword/keyphrase, or Microsoft sensitivity label), origin, file type, or file size; (2) at least one context parameter that specifies either a process, file path, or user (non-system account).</li><li>Subsequent detections and actions for the same file and process will not be generated until at least 10 seconds after the first detection/action.</li><li>From Agent 9.1.0+, the "File extensions" parameter is deprecated and will only be used if the "File types" parameter (preferred) is not configured.</li></ul></small>
+<p><strong>Requirements:</strong> Agent 8.4.0+</p>
+<p><strong>Tags:</strong> <code>apps</code> <code>datatracking</code> <code>filecopy</code> <code>dlp</code></p>
+<p><strong>Triggers:</strong> Triggers when any of these applications are used: <code>Amazon Chime</code>, <code>chime.exe</code>, <code>BlueJeans</code>, <code>bluejeans.exe</code>, <code>Cisco Webex Meetings</code>, <code>CiscoCollabHost.exe</code>, <code>CiscoCollabHostCef.exe</code>, <code>GoToMeeting</code>, <code>g2mcomm.exe</code>, <code>g2mlauncher.exe</code>, <code>g2mstart.exe</code>, <code>join.me</code>, <code>join.me.exe</code>, <code>join.me.sentinel.exe</code>, <code>MyMeetingVideo.exe</code>, <code>Pexip (My Meeting Video)</code>, <code>RingCentral Meetings</code>, <code>ringcentralmeetings.exe</code>, <code>Skype</code>, <code>skype.exe</code>, <code>Slack</code>, <code>slack.exe</code>, <code>Teams</code>, <code>teams.exe</code>, <code>Webex Teams</code>, <code>webex.exe</code>, <code>atmgr.exe</code>, <code>zoom.exe</code>, <code>zoom.us</code></p>
+<p><strong>Content inspection:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Content patterns: 2 predefined asset(s) referenced</li>
+<li>Match requirement: <strong>Match any</strong></li>
+<li>Each pattern/keyword must appear at least <strong>3</strong> times to trigger</li>
+</ul>
+<p><strong>Exceptions:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Exempt file paths: <code>*:\Users\*\Documents\Zoom\**</code>, <code>/home/*/Documents/Zoom/**</code></li>
+</ul>
+<p><strong>Settings:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Monitors files opened for reading</li>
+<li>Detection grouping window: 30 seconds</li>
+</ul>
+<p><strong>Customizable:</strong> Called paths (allow list), Application window titles (Windows and macOS only) (deny list), File types (allow list), File extensions (allow list), File path keywords (allow list)</p>
+<p><strong>Response:</strong> Monitor only</p>
+</div>
+</details>
+<hr>
+<details open class="group-section">
+<summary><h2 id="example---insider-risk">Example - Insider Risk <span class="toc-badge">All systems</span></h2></summary>
+<blockquote>Example policies demonstrating insider risk detection for macOS endpoints.</blockquote>
+<p><strong>Policies in group:</strong> 2</p>
+<div class="policy-card">
+<h3 id="unusual-usb-bulk-file-transfer-activity">Unusual USB bulk file transfer activity<span class="severity-badge risk-low">30 Low</span></h3>
+<p>Detects when a user's USB bulk file transfer behavior deviates from their normal behavior. A bulk transfer is a series of write events without a significant pause (60s).</p>
+<small>Note: Requires Agent 11.2.3+ on Linux.</small>
+<p><strong>Requirements:</strong> Agent 10.3.1+</p>
+<p><strong>Tags:</strong> <code>cyberhygiene</code> <code>devices</code> <code>usb</code> <code>ml</code> <code>unusualbehavior</code></p>
+<p><strong>Triggers:</strong> USB transfer properties for monitoring: Binary processes, File extensions, Duration of bulk transfer, Number of files in bulk transfer, Ratio of writes to reads, Time between bulk transfers, Total size of bulk transfer</p>
+<p><strong>Content inspection:</strong> Match requirement: <strong>Match any</strong></p>
+<p><strong>Exceptions:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Exempt applications (will not trigger): <code>SYSTEM</code></li>
+</ul>
+<p><strong>Settings:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Probability threshold (%): 1</li>
+<li>Minimum training data: 30</li>
+<li>Training period (days): 14</li>
+</ul>
+<p><strong>Customizable:</strong> File types (allow list), File extensions (allow list), File path keywords (deny list)</p>
+<p><strong>Response:</strong> Monitor only</p>
+</div>
+<div class="policy-card">
+<h3 id="executable-or-script-downloaded">Executable or script downloaded<span class="severity-badge risk-info">0 Informational</span></h3>
+<p>Detects when a user downloads an executable or script file from an unapproved URL.</p>
+<p><strong>Requirements:</strong> Agent 8.4.0+</p>
+<p><strong>Tags:</strong> <code>cyberhygiene</code> <code>web</code> <code>macOS</code> <code>insiderrisk</code></p>
+<p><strong>Triggers:</strong> Monitors these file extensions: 1 predefined asset(s) referenced</p>
+<p><strong>Content inspection:</strong> Match requirement: <strong>Match any</strong></p>
+<p><strong>Exceptions:</strong></p>
+<ul style='margin-top:2px;margin-bottom:2px'>
+<li>Exempt websites/URLs: 1 predefined asset(s) referenced</li>
+</ul>
+<p><strong>Settings:</strong> Training period (hours): 40</p>
+<p><strong>Customizable:</strong> User account domains (Legacy) (deny list), URL regex patterns (allow list), File types (allow list), File names (allow list)</p>
+<p><strong>Response:</strong> Monitor only</p>
+</div>
+</details>
+<hr>
+<p><em>Report generated by FortiDLP Policy Summarizer</em></p>
+</body>
+</html>
